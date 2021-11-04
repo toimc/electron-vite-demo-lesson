@@ -1,0 +1,74 @@
+{
+  "name": "vite-electron-builder",
+  "private": true,
+  "engines": {
+    "node": ">=v16.13",
+    "npm": ">=8.1"
+  },
+  "main": "packages/main/dist/index.cjs",
+  "scripts": {
+    "build": "node scripts/build.js",
+    "precompile": "cross-env MODE=production npm run build",
+    "compile": "electron-builder build --config electron-builder.config.js --dir --config.asar=false",
+    "pretest": "npm run build",
+    "test": "node tests/app.spec.js",
+    "watch": "node scripts/watch.js",
+    "lint": "eslint . --ext js,ts,vue",
+    "typecheck-main": "tsc --noEmit -p packages/main/tsconfig.json",
+    "typecheck-preload": "tsc --noEmit -p packages/preload/tsconfig.json",
+    "typecheck-renderer": "vue-tsc --noEmit -p packages/renderer/tsconfig.json",
+    "typecheck": "npm run typecheck-main && npm run typecheck-preload && npm run typecheck-renderer",
+    "lint:prettier": "prettier --write --loglevel warn \"packages/**/*.{js,json,tsx,css,less,scss,vue,html,md}\""
+  },
+  "browserslist": [
+    "Chrome 94"
+  ],
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged",
+    "pre-push": "npm run typecheck"
+  },
+  "lint-staged": {
+    "*.{js,ts,vue}": "eslint --cache --fix"
+  },
+  "devDependencies": {
+    "@types/electron-devtools-installer": "2.2.0",
+    "@typescript-eslint/eslint-plugin": "5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "@vitejs/plugin-vue": "1.9.4",
+    "cross-env": "7.0.3",
+    "electron": "15.3.0",
+    "electron-builder": "22.13.1",
+    "electron-devtools-installer": "3.2.0",
+    "eslint": "8.1.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "8.0.3",
+    "lint-staged": "11.2.6",
+    "playwright": "1.16.3",
+    "prettier": "^2.4.1",
+    "sass": "^1.43.4",
+    "simple-git-hooks": "2.7.0",
+    "typescript": "4.4.4",
+    "vite": "2.6.13",
+    "vue-tsc": "0.28.10",
+    "@types/axios": "^0.14.0",
+    "@types/lodash": "^4.14.168",
+    "@types/node": "^14.14.31",
+    "@types/uuid": "^8.3.0",
+    "@types/yup": "^0.29.11"
+  },
+  "dependencies": {
+    "electron-updater": "4.6.1",
+    "vue": "3.2.21",
+    "vue-router": "4.0.12",
+    "vuex": "^4.0.2",
+    "@vee-validate/i18n": "^4.1.20",
+    "@vee-validate/rules": "^4.1.20",
+    "axios": "^0.21.1",
+    "dayjs": "^1.10.4",
+    "qs": "^6.9.6",
+    "uuid": "^8.3.2",
+    "vee-validate": "^4.0.4",
+    "yup": "^0.32.9"
+  }
+}
