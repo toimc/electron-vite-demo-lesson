@@ -1,9 +1,48 @@
-import {app, BrowserWindow} from 'electron';
+import type { MenuItemConstructorOptions} from 'electron';
+import {app, BrowserWindow, Menu, shell} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
 
 
 const isSingleInstance = app.requestSingleInstanceLock();
+// const isMac = process.platform === 'darwin'
+
+const template: MenuItemConstructorOptions[] = [
+  { role: 'appMenu' },
+  // ...(isMac ? [{
+  //   label: app.name,
+  //   submenu: [
+  //     { role: 'about', label: '关于我们', accelerator: 'CmdOrCtrl+1' },
+  //     { type: 'separator' },
+  //     { role: 'services' },
+  //     { type: 'separator' },
+  //     { role: 'hide' },
+  //     { role: 'hideOthers' },
+  //     { role: 'unhide' },
+  //     { type: 'separator' },
+  //     { role: 'quit' }
+  //   ]
+  // }] as MenuItemConstructorOptions[] : []),
+  { role: 'fileMenu' },
+  { role: 'editMenu' },
+  { role: 'viewMenu' },
+  { role: 'windowMenu' },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: '查看帮助',
+        click: async () => {
+          await shell.openExternal('https://front-end.toimc.com')
+        }
+      }
+    ]
+  }
+]
+
+// 设置electron应用的菜单
+const menu = Menu.buildFromTemplate(template)
+Menu.setApplicationMenu(menu)
 
 if (!isSingleInstance) {
   app.quit();
