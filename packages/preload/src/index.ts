@@ -1,4 +1,17 @@
-import {contextBridge} from 'electron';
+import type { IpcRendererEvent} from 'electron';
+import {contextBridge, ipcRenderer} from 'electron';
+
+
+const _ipcRenderer = {
+  // 暴露出去的ipcRenderer上的API
+  on: (channel: string, listener: (event: IpcRendererEvent, ...args: any[]) => void)=> {
+    ipcRenderer.on(channel, listener);
+    return _ipcRenderer
+  },
+  send: (channel: string, ...args: any[]) => {
+    ipcRenderer.send(channel, ...args);
+  }
+}
 
 const apiKey = 'electron';
 /**
@@ -6,6 +19,7 @@ const apiKey = 'electron';
  */
 const api: ElectronApi = {
   versions: process.versions,
+  ipcRenderer: _ipcRenderer
 };
 
 /**

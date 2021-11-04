@@ -1,11 +1,11 @@
 import type { MenuItemConstructorOptions} from 'electron';
-import {app, BrowserWindow, Menu, shell} from 'electron';
+import {app, BrowserWindow, Menu, shell, ipcMain} from 'electron';
 import {join} from 'path';
 import {URL} from 'url';
 
 
 const isSingleInstance = app.requestSingleInstanceLock();
-// const isMac = process.platform === 'darwin'
+const isMac = process.platform === 'darwin'
 
 const template: MenuItemConstructorOptions[] = [
   { role: 'appMenu' },
@@ -40,8 +40,25 @@ const template: MenuItemConstructorOptions[] = [
   }
 ]
 
+const dockerMenu: MenuItemConstructorOptions[] = [{
+  label: 'Docker',
+  submenu: [
+    {
+      label: 'sub1',
+      click: () => {
+        console.log('from sub1')
+      }
+    },
+    {
+      label: 'sub2'
+    },
+  ]
+}]
+
 // 设置electron应用的菜单
 const menu = Menu.buildFromTemplate(template)
+const dockMenu = Menu.buildFromTemplate(dockerMenu)
+
 Menu.setApplicationMenu(menu)
 
 if (!isSingleInstance) {
@@ -60,6 +77,12 @@ if (import.meta.env.MODE === 'development') {
         allowFileAccess: true,
       },
     }))
+    .then(() => {
+      if (isMac) {
+        // 加入dock菜单
+        app.dock.setMenu(dockMenu)
+      }
+    })
     .catch(e => console.error('Failed install extension:', e));
 }
 
@@ -82,7 +105,6 @@ const createWindow = async () => {
    */
   mainWindow.on('ready-to-show', () => {
     mainWindow?.show();
-
     if (import.meta.env.MODE === 'development') {
       mainWindow?.webContents.openDevTools();
     }
@@ -131,3 +153,29 @@ if (import.meta.env.PROD) {
     .catch((e) => console.error('Failed check updates:', e));
 }
 
+ipcMain.on('show-context-menu', (event) => {
+  console.log('🚀 ~ file: index.ts ~ line 172 ~ ipcMain.on ~ event', event)
+  const win = BrowserWindow.fromWebContents(event.sender)
+  if (win) {
+
+    const clickMenu: MenuItemConstructorOptions[] = [{
+      label: 'Docker',
+      submenu: [
+        {
+          label: 'sub1',
+          click: () => {
+            event.sender.send('click-pop-menu', {
+              'event': 'sub1-clicked',
+              'data': 'hello'
+            })
+          }
+        },
+        {
+          label: 'sub2'
+        },
+      ]
+    }]
+    const popMenu = Menu.buildFromTemplate(clickMenu)
+    popMenu.popup({window: win});
+  }
+})
