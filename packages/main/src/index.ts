@@ -1,8 +1,16 @@
 import type { MenuItemConstructorOptions} from 'electron';
 import {app, BrowserWindow, Menu, shell, ipcMain} from 'electron';
 import {join} from 'path';
-import {URL} from 'url';
+import { URL } from 'url';
+// allowSyntheticDefaultImports true
+// 安装i18n的types npm i @types/i18n -D
+import i18n from 'i18n'
 
+// 国际化
+i18n.configure({
+  locales: ['zh-CN'],
+  directory: join(__dirname, '../locales'),
+})
 
 const isSingleInstance = app.requestSingleInstanceLock();
 const isMac = process.platform === 'darwin'
@@ -142,6 +150,12 @@ app.on('window-all-closed', () => {
 
 app.whenReady()
   .then(createWindow)
+  .then(() => {
+    // const locale = app.getLocale()
+    i18n.setLocale('en')
+    // i18n.setLocale(locale)
+    console.log(i18n.__('paste'))
+  })
   .catch((e) => console.error('Failed create window:', e));
 
 
