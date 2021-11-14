@@ -1,5 +1,5 @@
 import type { MenuItemConstructorOptions} from 'electron';
-import {app, BrowserWindow, Menu, shell, ipcMain} from 'electron';
+import {app, BrowserWindow, Menu, shell, ipcMain, globalShortcut} from 'electron';
 import {join} from 'path';
 import { URL } from 'url';
 // allowSyntheticDefaultImports true
@@ -149,12 +149,32 @@ app.on('window-all-closed', () => {
 
 
 app.whenReady()
-  .then(createWindow)
   .then(() => {
+    createWindow()
+    // 国际化
     // const locale = app.getLocale()
     i18n.setLocale('en')
     // i18n.setLocale(locale)
     console.log(i18n.__('paste'))
+    // 注册全局的快捷键
+    const ret = globalShortcut.register('CommandOrControl+Shift+1', () => {
+      // console.log('pressed keys')
+      // app.showAboutPanel()
+      const win = BrowserWindow.getFocusedWindow()
+      win?.setFullScreen(!win?.isFullScreen())
+      // setTimeout(() => {
+      //   // 禁止全屏 特别适合于桌面终端设备 -> 防止恶意操作
+      //   win?.setFullScreenable(false)
+      //   win?.setResizable(false)
+      // },0)
+    })
+    // console.log('🚀 ~ file: index.ts ~ line 164 ~ ret ~ ret', ret)
+    if (!ret) {
+      console.log('registration failed')
+    }
+    // if (globalShortcut.isRegistered('CommandOrControl+Shift+1')) {
+    //   console.log('register success')
+    // }
   })
   .catch((e) => console.error('Failed create window:', e));
 
