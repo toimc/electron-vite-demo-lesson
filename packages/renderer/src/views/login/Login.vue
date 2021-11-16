@@ -8,14 +8,23 @@
             <router-link :to="{ name: 'reg' }">注册</router-link>
           </li>
         </ul>
-        <div class="layui-form layui-tab-content" id="LAY_ucm" style="padding: 20px 0">
+        <div id="LAY_ucm" class="layui-form layui-tab-content" style="padding: 20px 0">
           <Form v-slot="{ errors, validate }" ref="form">
             <div class="layui-tab-item layui-show">
               <div class="layui-form layui-form-pane">
                 <div class="layui-form-item">
                   <label for="L_email" class="layui-form-label">用户名</label>
                   <div class="layui-input-inline">
-                    <Field as="input" type="text" name="name" v-model="state.username" placeholder="请输入用户名" rules="required|email" autocomplete="off" class="layui-input" />
+                    <Field
+                      v-model="state.username"
+                      as="input"
+                      type="text"
+                      name="name"
+                      placeholder="请输入用户名"
+                      rules="required|email"
+                      autocomplete="off"
+                      class="layui-input"
+                    />
                   </div>
                   <div class="layui-form-mid">
                     <span style="color: #c00">{{ errors.name }}</span>
@@ -24,7 +33,16 @@
                 <div class="layui-form-item">
                   <label for="L_pass" class="layui-form-label">密码</label>
                   <div class="layui-input-inline">
-                    <Field as="input" type="password" name="password" v-model="state.password" placeholder="请输入密码" rules="required|min:6" autocomplete="off" class="layui-input" />
+                    <Field
+                      v-model="state.password"
+                      as="input"
+                      type="password"
+                      name="password"
+                      placeholder="请输入密码"
+                      rules="required|min:6"
+                      autocomplete="off"
+                      class="layui-input"
+                    />
                   </div>
                   <div class="layui-form-mid">
                     <span style="color: #c00">{{ errors.password }}</span>
@@ -34,10 +52,24 @@
                   <div class="layui-row">
                     <label for="L_vercode" class="layui-form-label">验证码</label>
                     <div class="layui-input-inline">
-                      <Field as="input" type="text" name="code" v-model="state.code" placeholder="请输入验证码" rules="required|length:4" autocomplete="off" class="layui-input" />
+                      <Field
+                        v-model="state.code"
+                        as="input"
+                        type="text"
+                        name="code"
+                        placeholder="请输入验证码"
+                        rules="required|length:4"
+                        autocomplete="off"
+                        class="layui-input"
+                      />
                     </div>
                     <div class>
-                      <span class="svg" style="color: #c00" @click="getCaptcha()" v-html="state.svg"></span>
+                      <span
+                        class="svg"
+                        style="color: #c00"
+                        @click="getCaptcha()"
+                        v-html="state.svg"
+                      ></span>
                     </div>
                   </div>
                   <div class="layui-form-mid">
@@ -54,8 +86,17 @@
                 </div>
                 <div class="layui-form-item fly-form-app">
                   <span>或者使用社交账号登入</span>
-                  <a href onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-qq" title="QQ登入"></a>
-                  <a href onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" class="iconfont icon-weibo" title="微博登入"></a>
+                  <a class="iconfont icon-qq" title="QQ登入" @click="showQrCode()"></a>
+                  <a
+                    href
+                    onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})"
+                    class="iconfont icon-weibo"
+                    title="微博登入"
+                  ></a>
+                </div>
+                <div v-show="show">
+                  <div id="login_container"></div>
+                  <div class="mask" @click="toggle"></div>
                 </div>
               </div>
             </div>
@@ -67,27 +108,68 @@
 </template>
 
 <script lang="ts">
-import { Form, Field } from 'vee-validate'
-import { LoginService } from '@/services/login'
-import { defineComponent, onMounted } from 'vue'
-import { alert } from '@/components/modules/alert'
+  import { Form, Field } from 'vee-validate'
+  import { LoginService } from '@/services/login'
+  import { defineComponent, onMounted, ref } from 'vue'
+  import { alert } from '@/components/modules/alert'
+  import { v4 as uuidv4 } from 'uuid'
 
-const { state, loginHandle, getCaptcha } = LoginService()
+  const { state, loginHandle, getCaptcha } = LoginService()
 
-export default defineComponent({
-  name: 'login',
-  components: {
-    Form, Field
-  },
-  setup () {
-    onMounted(async () => await getCaptcha())
+  export default defineComponent({
+    name: 'Login',
+    components: {
+      Form,
+      Field
+    },
+    setup() {
+      onMounted(async () => await getCaptcha())
+      const show = ref(false)
 
-    return {
-      state,
-      loginHandle,
-      getCaptcha,
-      alert
+      let cid = localStorage.getItem('cid')
+      if (!cid) {
+        cid = uuidv4()
+        localStorage.setItem('cid', cid)
+      }
+
+      const showQrCode = () => {
+        //  https://open.weixin.qq.com/connect/qrconnect?appid=wx0af81b0d697d9db0&redirect_uri=https%3A%2F%2Fopen.toimc.com&response_type=code&scope=snsapi_login#wechat_redirect
+        new WxLogin({
+          self_redirect: true,
+          id: 'login_container',
+          appid: 'wx0af81b0d697d9db0',
+          scope: 'snsapi_login',
+          redirect_uri: encodeURIComponent('https://open.toimc.com'),
+          state: cid,
+          style: 'white',
+          href: ''
+        })
+        show.value = true
+      }
+
+      const toggle = () => {
+        show.value = false
+      }
+
+      return {
+        state,
+        loginHandle,
+        getCaptcha,
+        alert,
+        showQrCode,
+        show,
+        toggle
+      }
     }
-  }
-})
+  })
 </script>
+
+<style lang="scss" scoped>
+  #login_container {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 30000;
+  }
+</style>
