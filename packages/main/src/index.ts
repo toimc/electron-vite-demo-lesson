@@ -9,6 +9,7 @@ import qs from 'qs'
 import axios from 'axios'
 import Store from 'electron-store'
 import dayjs from 'dayjs'
+import sound from 'sound-play'
 
 const { getDoNotDisturb } = require('electron-notification-state')
 // On Windows, logs `true` if "quiet hours" are enabled
@@ -96,6 +97,8 @@ if (!isSingleInstance) {
 
 app.disableHardwareAcceleration()
 
+// console.log(join(__dirname, './test.wav'))
+
 // Install "Vue.js devtools"
 if (import.meta.env.MODE === 'development') {
   app
@@ -177,10 +180,15 @@ const createWindow = async () => {
             store.set('token', token)
             mainWindow?.webContents.send('reply-store', 'token', token)
             mainWindow?.webContents.send('reply-store', 'userInfo', data)
-            new Notification({
+            const instance = new Notification({
               title: '登录成功',
-              body: '登录时间' + dayjs().format('YYYY-MM-DD hh:mm:ss')
-            }).show()
+              body: '登录时间' + dayjs('2021-10-01').format('YYYY-MM-DD hh:mm:ss'),
+              silent: true // 设置系统通知声音为静音
+            })
+            instance.on('show', () => {
+              sound.play(join(__dirname, './test.wav'))
+            })
+            instance.show()
           }
           // 回退到首页
           mainWindow?.webContents.goBack()
