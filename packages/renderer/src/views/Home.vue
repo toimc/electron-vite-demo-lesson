@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <imooc-panel></imooc-panel>
@@ -7,16 +6,15 @@
 </template>
 
 <script lang="ts">
-import Panel from '@/components/Panel.vue'
-import { defineComponent } from 'vue'
+  import Panel from '@/components/Panel.vue'
+  import { defineComponent } from 'vue'
 
-export default defineComponent({
-  name: 'home',
-  components: {
-    'imooc-panel': Panel
-  }
-})
+  export default defineComponent({
+    name: 'Home',
+    components: {
+      'imooc-panel': Panel
+    }
+  })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

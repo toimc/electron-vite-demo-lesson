@@ -1,4 +1,5 @@
-import { App, createApp } from 'vue'
+import type { App } from 'vue'
+import { createApp } from 'vue'
 import AlertComponent from './Alert.vue'
 
 export const alert = (msg: string) => {
@@ -10,14 +11,11 @@ export const alert = (msg: string) => {
     msg
   }
 
-  const alertCom = createApp({
-    setup () {
-      const unmount = () => {
-        alertCom.unmount()
-        document.body.removeChild(root)
-      }
-      const newOptions = Object.assign(options, { unmount })
-      return () => (<AlertComponent {...newOptions} />)
+  const alertCom = createApp(AlertComponent, {
+    ...options,
+    unmount() {
+      alertCom.unmount()
+      document.body.removeChild(root)
     }
   })
 
@@ -37,14 +35,11 @@ export const confirm = (msg: string, success: Function, cancel: Function) => {
     cancel
   }
 
-  const alertCom = createApp({
-    setup () {
-      const unmount = () => {
-        alertCom.unmount()
-        document.body.removeChild(root)
-      }
-      const newOptions = Object.assign(options, { unmount })
-      return () => (<AlertComponent {...newOptions} />)
+  const alertCom = createApp(AlertComponent, {
+    ...options,
+    unmount() {
+      alertCom.unmount()
+      document.body.removeChild(root)
     }
   })
 

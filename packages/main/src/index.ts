@@ -1,5 +1,5 @@
 import type { MenuItemConstructorOptions } from 'electron'
-import { app, BrowserWindow, Menu, shell, ipcMain, globalShortcut } from 'electron'
+import { app, BrowserWindow, Menu, shell, ipcMain, globalShortcut, Notification } from 'electron'
 import { join } from 'path'
 import { URL } from 'url'
 // allowSyntheticDefaultImports true
@@ -8,6 +8,12 @@ import i18n from 'i18n'
 import qs from 'qs'
 import axios from 'axios'
 import Store from 'electron-store'
+import dayjs from 'dayjs'
+
+const { getDoNotDisturb } = require('electron-notification-state')
+// On Windows, logs `true` if "quiet hours" are enabled
+// On macOS, logs `true` if "do not disturb" is enabled
+console.log('quiet:', getDoNotDisturb())
 
 // axios会去使用XHR 或者 Node.js adapters
 axios.defaults.adapter = require('axios/lib/adapters/http')
@@ -15,6 +21,8 @@ axios.defaults.adapter = require('axios/lib/adapters/http')
 const store = new Store()
 // console.log('userInfo', store.get('userInfo'))
 // console.log('token', store.get('token'))
+
+// 显示通知
 
 // 国际化
 i18n.configure({
@@ -169,6 +177,10 @@ const createWindow = async () => {
             store.set('token', token)
             mainWindow?.webContents.send('reply-store', 'token', token)
             mainWindow?.webContents.send('reply-store', 'userInfo', data)
+            new Notification({
+              title: '登录成功',
+              body: '登录时间' + dayjs().format('YYYY-MM-DD hh:mm:ss')
+            }).show()
           }
           // 回退到首页
           mainWindow?.webContents.goBack()
@@ -202,6 +214,7 @@ app
   .whenReady()
   .then(() => {
     createWindow()
+    // showNotification()
     // 国际化
     // const locale = app.getLocale()
     i18n.setLocale('en')
@@ -268,4 +281,9 @@ ipcMain.on('show-context-menu', (event) => {
 
 ipcMain.on('get-store', (event, key) => {
   event.sender.send('reply-store', key, store.get(key))
+})
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ipcMain.on('reset-store', (event, key) => {
+  store.clear()
 })

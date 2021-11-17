@@ -87,12 +87,7 @@
                 <div class="layui-form-item fly-form-app">
                   <span>或者使用社交账号登入</span>
                   <a class="iconfont icon-qq" title="QQ登入" @click="showQrCode()"></a>
-                  <a
-                    href
-                    onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})"
-                    class="iconfont icon-weibo"
-                    title="微博登入"
-                  ></a>
+                  <a class="iconfont icon-weibo" title="微博登入" @click="showNotify()"></a>
                 </div>
                 <div v-show="show">
                   <div id="login_container"></div>
@@ -151,6 +146,12 @@
         show.value = false
       }
 
+      const showNotify = () => {
+        new Notification('通知的标题', { body: '通知的内容' }).onclick = () => {
+          console.log('通知被点击了')
+        }
+      }
+
       return {
         state,
         loginHandle,
@@ -158,7 +159,8 @@
         alert,
         showQrCode,
         show,
-        toggle
+        toggle,
+        showNotify
       }
     }
   })
