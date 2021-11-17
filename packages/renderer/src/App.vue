@@ -30,6 +30,12 @@
         console.log('🚀 ~ file: App.vue ~ line 30 ~ on ~ args', args)
         console.log('🚀 ~ file: App.vue ~ line 30 ~ on ~ event', event)
       })
+      // 获取token
+      send('get-store', 'token')
+      on('reply-store', (event, ...args) => {
+        console.log('🚀 ~ file: App.vue ~ line 36 ~ mounted ~ args', args)
+        console.log('🚀 ~ file: App.vue ~ line 36 ~ mounted ~ event', event)
+      })
     }
   })
 </script>
@@ -165,5 +171,16 @@
   .fade-enter-active,
   .fade-enter-to {
     animation: bounceIn 0.3s;
+  }
+
+  .mask {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    z-index: 2000;
   }
 </style>
