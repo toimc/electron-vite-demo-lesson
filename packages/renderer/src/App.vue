@@ -8,6 +8,7 @@
   import { defineComponent } from 'vue'
   import Header from '@/components/Header.vue'
   import Footer from '@/components/Footer.vue'
+  import store from '@/store'
 
   export default defineComponent({
     components: {
@@ -31,10 +32,19 @@
         console.log('🚀 ~ file: App.vue ~ line 30 ~ on ~ event', event)
       })
       // 获取token
-      send('get-store', 'token')
+      // send('get-store', 'token')
       on('reply-store', (event, ...args) => {
         console.log('🚀 ~ file: App.vue ~ line 36 ~ mounted ~ args', args)
         console.log('🚀 ~ file: App.vue ~ line 36 ~ mounted ~ event', event)
+        if (args && args.length > 0) {
+          if (args[0] === 'token') {
+            store.commit('setToken', args[1])
+          }
+          if (args[0] === 'userInfo') {
+            store.commit('setUserInfo', args[1])
+            store.commit('setIsLogin', true)
+          }
+        }
       })
     }
   })

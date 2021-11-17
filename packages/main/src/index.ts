@@ -163,11 +163,15 @@ const createWindow = async () => {
         if (res.status === 200) {
           const { code, data, token } = res.data
           if (code === 200) {
+            // 主进程如何存储本地化的数据
+            // 渲染进程如何获取主进程存储的本地化的数据
             store.set('userInfo', data)
             store.set('token', token)
+            mainWindow?.webContents.send('reply-store', 'token', token)
+            mainWindow?.webContents.send('reply-store', 'userInfo', data)
           }
-          // 主进程如何存储本地化的数据
-          // 渲染进程如何获取主进程存储的本地化的数据
+          // 回退到首页
+          mainWindow?.webContents.goBack()
         }
       } catch (error) {
         console.log(error)
