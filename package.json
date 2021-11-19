@@ -39,7 +39,6 @@
     "*.{js,ts,vue}": "eslint --cache --fix"
   },
   "devDependencies": {
-    "@types/axios": "^0.14.0",
     "@types/electron-devtools-installer": "2.2.0",
     "@types/i18n": "^0.13.1",
     "@types/lodash": "^4.14.168",
@@ -55,6 +54,7 @@
     "electron": "15.3.0",
     "electron-builder": "22.13.1",
     "electron-devtools-installer": "3.2.0",
+    "electron-notarize": "^1.1.1",
     "eslint": "8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
@@ -85,12 +85,5 @@
     "vue-router": "4.0.12",
     "vuex": "^4.0.2",
     "yup": "^0.32.9"
-  },
-  "build": {
-    "win": {
-      "target": [
-        "nsis"
-      ]
-    }
   }
 }

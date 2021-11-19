@@ -1,3 +1,5 @@
+const path = require('path')
+
 if (process.env.VITE_APP_VERSION === undefined) {
   const now = new Date()
   process.env.VITE_APP_VERSION = `${now.getUTCFullYear() - 2000}.${
@@ -10,8 +12,7 @@ if (process.env.VITE_APP_VERSION === undefined) {
  * @see https://www.electron.build/configuration/configuration
  */
 const config = {
-  appId: 'com.toimc.community.app',
-  copyright: 'Copyright © 2021 Toimc',
+  appId: 'com.toimc.community.desktop',
   directories: {
     output: 'dist',
     buildResources: 'buildResources'
@@ -26,10 +27,17 @@ const config = {
   },
   mac: {
     category: 'public.app-category.lifestyle',
-    target: 'dmg'
+    target: 'dmg',
+    entitlements: 'buildResources/entitlements.mac.plist',
+    entitlementsInherit: 'buildResources/entitlements.mac.plist',
+    provisioningProfile: path.join(__dirname, './buildResources/toimchd.provisionprofile')
   },
   win: {
     target: ['nsis', 'zip']
+    // verifyUpdateCodeSignature: false,
+    // signingHashAlgorithms: ['sha256'],
+    // certificateFile: 'XXX.pfx',
+    // certificatePassword: 'XXXX'
   },
   nsis: {
     oneClick: false,
@@ -41,7 +49,8 @@ const config = {
     category: 'Office',
     executableName: 'toimc-community',
     icon: 'buildResources/icon.png'
-  }
+  },
+  afterSign: 'scripts/notarize.js'
 }
 
 module.exports = config
