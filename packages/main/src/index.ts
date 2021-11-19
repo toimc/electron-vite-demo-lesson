@@ -11,10 +11,10 @@ import Store from 'electron-store'
 import dayjs from 'dayjs'
 import sound from 'sound-play'
 
-const { getDoNotDisturb } = require('electron-notification-state')
+// const { getDoNotDisturb } = require('electron-notification-state')
 // On Windows, logs `true` if "quiet hours" are enabled
 // On macOS, logs `true` if "do not disturb" is enabled
-console.log('quiet:', getDoNotDisturb())
+// console.log('quiet:', getDoNotDisturb())
 
 // axios会去使用XHR 或者 Node.js adapters
 axios.defaults.adapter = require('axios/lib/adapters/http')

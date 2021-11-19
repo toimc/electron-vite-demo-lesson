@@ -15,7 +15,8 @@
   "scripts": {
     "build": "node scripts/build.js",
     "precompile": "cross-env MODE=production npm run build",
-    "compile": "electron-builder build --config electron-builder.config.js --dir --config.asar=false",
+    "compile": "electron-builder build --config electron-builder.config.js --config.asar=false",
+    "compile:mas": "CSC_NAME=\"Wuhan Wei'en Technology Co., Ltd\" electron-builder build --config electron-builder.config.js --config.asar=false",
     "compile:pack": "electron-builder build --config electron-builder.config.js --config.asar=false",
     "compile:win": "electron-builder build --config electron-builder.config.js --config.asar=false --win",
     "pretest": "npm run build",
@@ -73,7 +74,7 @@
     "@vee-validate/rules": "^4.1.20",
     "axios": "^0.21.1",
     "dayjs": "^1.10.4",
-    "electron-notification-state": "^1.0.4",
+    "electron-osx-sign": "^0.6.0",
     "electron-store": "^8.0.1",
     "electron-updater": "4.6.1",
     "i18n": "^0.13.3",
