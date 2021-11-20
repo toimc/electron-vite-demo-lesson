@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" v-show="isShow">
+  <div v-show="isShow" class="modal">
     <div class="mask" @click="close()"></div>
     <div class="layui-layer layui-layer-page" :class="{ active: isShow }">
       <div class="layui-layer-title">
@@ -8,9 +8,7 @@
       </div>
       <div class="layui-layer-content">
         <div class="layui-text">
-          <blockquote class="layui-elem-quote">
-            “签到”可获得的社区积分，规则如下
-          </blockquote>
+          <blockquote class="layui-elem-quote"> “签到”可获得的社区积分，规则如下 </blockquote>
           <table class="layui-table">
             <thead>
               <tr>
@@ -56,26 +54,25 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+  import { defineComponent } from 'vue'
 
-export default defineComponent({
-  name: 'sign-info',
-  props: {
-    isShow: {
-      default: false,
-      type: Boolean
+  export default defineComponent({
+    name: 'SignInfo',
+    props: {
+      isShow: {
+        default: false,
+        type: Boolean
+      }
+    },
+    setup(props, { emit }) {
+      const close = () => {
+        emit('close-modal')
+      }
+      return {
+        close
+      }
     }
-  },
-  setup (props, { emit }) {
-    const close = () => {
-      emit('close-modal')
-    }
-    return {
-      close
-    }
-  }
-})
+  })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

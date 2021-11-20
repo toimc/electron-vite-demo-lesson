@@ -1,5 +1,6 @@
 import PopComponent from './Pop.vue'
-import { App, createApp } from 'vue'
+import type { App } from 'vue'
+import { createApp } from 'vue'
 
 export const popup = (msg: string, type = '', delay = 2000) => {
   // 注册Pop组件
@@ -14,13 +15,13 @@ export const popup = (msg: string, type = '', delay = 2000) => {
   }
 
   const popCom = createApp({
-    setup () {
+    setup() {
       const unmount = () => {
-        popCom.unmount(root)
+        popCom.unmount()
         document.body.removeChild(root)
       }
       const newOptions = Object.assign(options, { unmount })
-      return () => (<PopComponent {...newOptions} />)
+      return () => <PopComponent {...newOptions} />
     }
   })
 

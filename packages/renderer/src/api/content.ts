@@ -1,7 +1,7 @@
 import axios from '@/common/request'
 import qs from 'qs'
 import store from '@/store'
-import { SortOptions, PostInfo } from '../common/interface'
+import type { SortOptions, PostInfo } from '../common/interface'
 
 /**
  * 读取文章列表

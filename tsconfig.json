@@ -14,6 +14,7 @@
       "node_modules/@types",
       "node_modules/**/*.d.ts",
     ],
-    "lib": ["ESNext"]
+    "lib": ["ESNext"],
+    "allowSyntheticDefaultImports": true
   }
 }

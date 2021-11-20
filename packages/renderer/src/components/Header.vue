@@ -32,20 +32,10 @@
               <router-link :to="{ name: 'reg' }">注册</router-link>
             </li>
             <li class="layui-nav-item layui-hide-xs">
-              <a
-                href
-                onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})"
-                title="QQ登入"
-                class="iconfont icon-qq"
-              ></a>
+              <span title="QQ登入" class="iconfont icon-qq"></span>
             </li>
             <li class="layui-nav-item layui-hide-xs">
-              <a
-                href
-                onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})"
-                title="微博登入"
-                class="iconfont icon-weibo"
-              ></a>
+              <span title="微博登入" class="iconfont icon-weibo"></span>
             </li>
           </template>
 
@@ -110,6 +100,7 @@
   import { confirm } from '@/components/modules/alert'
 
   export default defineComponent({
+    name: 'HeaderComponent',
     setup() {
       const { toggle, on } = toggleUtils(false, 500)
       const {

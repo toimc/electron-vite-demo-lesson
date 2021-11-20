@@ -112,7 +112,7 @@
   const { state, loginHandle, getCaptcha } = LoginService()
 
   export default defineComponent({
-    name: 'Login',
+    name: 'LoginPage',
     components: {
       Form,
       Field

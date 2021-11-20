@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { configure, defineRule } from 'vee-validate'
 // import { required, email, min, length, confirmed, max, is_not } from '@vee-validate/rules'
 import rules from '@vee-validate/rules'
 import { localize } from '@vee-validate/i18n'
 import zh from '@vee-validate/i18n/dist/locale/zh_CN.json'
 
-Object.keys(rules).forEach(rule => {
+Object.keys(rules).forEach((rule) => {
   defineRule(rule, rules[rule])
 })
 // defineRule('required', required)

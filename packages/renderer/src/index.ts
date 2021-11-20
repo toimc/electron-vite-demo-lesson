@@ -1,3 +1,4 @@
+import type { Directive } from 'vue'
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from '@/router'
@@ -16,7 +17,7 @@ app.use(store)
 app.use(router)
 
 Object.keys(directives).forEach((key) => {
-  app.directive(key, directives[key])
+  app.directive(key, directives[key] as Directive<any, any>)
 })
 
 app.mount('#app')

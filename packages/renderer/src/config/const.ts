@@ -1,4 +1,4 @@
-export const textMap = {
+export const textMap: { [key: string]: string } = {
   share: '分享',
   ask: '提问',
   advise: '建议',

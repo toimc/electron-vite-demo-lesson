@@ -1,4 +1,4 @@
-import { HttpResponse, PostInfo } from '@/common/interface'
+import type { HttpResponse, PostInfo } from '@/common/interface'
 import { textMap } from '@/config/const'
 import { computed, reactive } from 'vue'
 import { getComents, setCommentBest, setHands } from '@/api/comments'
@@ -26,7 +26,7 @@ export const ContentsService = () => {
     }
   })
 
-  const tag = computed(() => (state.page && state.page.catalog) ? textMap[state.page.catalog] : '')
+  const tag = computed(() => (state.page && state.page.catalog ? textMap[state.page.catalog] : ''))
 
   const getPostDetail = async (tid: string) => {
     const res = await getDetail(tid)
@@ -50,7 +50,7 @@ export const ContentsService = () => {
     }
   }
 
-  const editComment = async (item) => {
+  const editComment = async (item: any) => {
     state.editInfo.content = item.content
     // 动态滚动到输入框的位置，并且进行focus
     scrollToElem('.layui-input-block', 500, -65)
@@ -63,7 +63,7 @@ export const ContentsService = () => {
     state.editInfo.item = item
   }
 
-  const setBest = (item, tid: string) => {
+  const setBest = (item: any, tid: string) => {
     confirm(
       '确定采纳为最佳答案吗?',
       async () => {
@@ -85,7 +85,7 @@ export const ContentsService = () => {
     )
   }
 
-  const hands = async (item) => {
+  const hands = async (item: any) => {
     const res = await setHands({ cid: item._id })
     const { code, msg } = res as HttpResponse
     if (code === 200) {
@@ -97,17 +97,14 @@ export const ContentsService = () => {
     }
   }
 
-  const reply = (item) => {
+  const reply = (item: any) => {
     // 插入@ + name 到 content
     // 滚动页面到输入框
     // focus 输入框
     const reg = /^@[\S]+/g
     if (state.editInfo.content) {
       if (reg.test(state.editInfo.content)) {
-        state.editInfo.content = state.editInfo.content.replace(
-          reg,
-          '@' + item.cuid.name + ' '
-        )
+        state.editInfo.content = state.editInfo.content.replace(reg, '@' + item.cuid.name + ' ')
       } else {
         if (state.editInfo.content !== '') {
           // 非空的情况
@@ -126,7 +123,7 @@ export const ContentsService = () => {
     }
   }
 
-  const addContent = (val) => {
+  const addContent = (val: string) => {
     state.editInfo.content = val
   }
 
