@@ -83,7 +83,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest]
     #    To compile the application for different platforms, use:
     #    os: [ macos-latest, ubuntu-latest, windows-latest ]
 
@@ -107,11 +107,21 @@ jobs:
           RELEASE_NOTE: ${{ needs.draft.outputs.release-note }}
         run: echo "$RELEASE_NOTE" >> ./buildResources/release-notes.md
 
+      - name: Prepare for app notarization
+        if: startsWith(matrix.os, 'macos')
+        # Import Apple API key for app notarization on macOS
+        run: |
+          mkdir -p ~/private_keys/
+          echo '${{ secrets.api_key }}' > ~/private_keys/AuthKey_${{ secrets.api_key_id }}.p8
+
       # Compile app and upload artifacts
       - name: Compile & release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         env:
           VITE_APP_VERSION: ${{ needs.draft.outputs.version }}
+          # macOS notarization API key
+          API_KEY_ID: ${{ secrets.api_key_id }}
+          API_KEY_ISSUER_ID: ${{ secrets.api_key_issuer_id }}
         with:
           build_script_name: build
           args: --config electron-builder.config.js
@@ -137,7 +147,7 @@ jobs:
           # windows_certs_password: ''
 
           # Base64-encoded code signing certificate for macOS
-          # mac_certs: ''
+          mac_certs: ${{ secrets.mac_certs }}
 
           # Password for decrypting `mac_certs`
-          # mac_certs_password: ''
+          mac_certs_password: ${{ secrets.mac_certs_password }}

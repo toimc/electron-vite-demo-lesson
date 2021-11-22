@@ -32,7 +32,8 @@ const config = {
     target: ['dmg'],
     entitlements: 'buildResources/entitlements.mac.plist',
     entitlementsInherit: 'buildResources/entitlements.mac.plist',
-    provisioningProfile: path.join(__dirname, './buildResources/toimchd.provisionprofile')
+    provisioningProfile: path.join(__dirname, './buildResources/toimchd.provisionprofile'),
+    hardenedRuntime: true
     // bundleVersion: 2,
     // bundleShortVersion: 1.0.0
   },
@@ -54,7 +55,8 @@ const config = {
     executableName: 'toimc-community',
     icon: 'buildResources/icon.png'
   },
-  afterSign: 'scripts/notarize.js'
+  afterSign: 'electron-builder-notarize'
+  // afterSign: 'scripts/notarize.js'
 }
 
 module.exports = config
