@@ -108,7 +108,7 @@
           <fieldset class="layui-elem-field layui-field-title" style="text-align: center">
             <legend>回帖</legend>
           </fieldset>
-          <comments :tid="tid" :page="state.page"></comments>
+          <!-- <comments :tid="tid" :page="state.page"></comments> -->
           <!-- <imooc-page v-show="comments.length > 0 && total > 0" :showType="'icon'" :hasSelect="false" :hasTotal="false" :total="total" :size="size" :current="current" :showEnd="imooc-pagetrue" @changeCurrent="handleChange" @changeLimit="handleLimit"></imooc-page> -->
           <div class="layui-form layui-form-pane">
             <form>
@@ -161,7 +161,7 @@
   import { Form, Field } from 'vee-validate'
   import SimpleSideBar from '@/views/sidebar/SimpleSideBar.vue'
   import Panel from '@/components/Panel.vue'
-  import Comments from '@/views/contents/Commets.vue'
+  // import Comments from '@/views/contents/Commets.vue'
   // import Editor from '../modules/editor/index.vue'
   // import CodeMix from '@/mixin/code'
   // import Pagination from '@/components/modules/pagination/index.vue'
@@ -181,7 +181,7 @@
     components: {
       Form,
       Field,
-      Comments,
+      // Comments,
       'imooc-panel': Panel,
       'imooc-simplebar': SimpleSideBar
       // 'imooc-edit': Editor
