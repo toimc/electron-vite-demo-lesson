@@ -32,7 +32,7 @@ const config = {
   mac: {
     category: 'public.app-category.lifestyle',
     icon: 'buildResources/icon.icns',
-    target: ['dmg'],
+    // target: ['dmg'],
     entitlements: 'buildResources/entitlements.mac.plist',
     entitlementsInherit: 'buildResources/entitlements.mac.plist',
     provisioningProfile: path.join(__dirname, './buildResources/toimchd.provisionprofile'),

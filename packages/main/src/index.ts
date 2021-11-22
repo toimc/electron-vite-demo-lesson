@@ -38,6 +38,15 @@ const sendStatusToWindow = (text: string) => {
 
 // 是否需要进行通知更新
 const checkUpdate = async (flag = false) => {
+  // 私有仓库:
+  // autoUpdater.setFeedURL({
+  //   provider: 'github',
+  //   repo: 'repo',
+  //   owner: 'owner',
+  //   private: true,
+  //   token: '<personal-access-token>'
+  // })
+
   sendStatusToWindow('Start Checkding')
 
   flag ? autoUpdater.checkForUpdatesAndNotify() : autoUpdater.checkForUpdates()
