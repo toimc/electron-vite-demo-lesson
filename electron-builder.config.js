@@ -17,7 +17,7 @@ const config = {
     output: 'dist',
     buildResources: 'buildResources'
   },
-  files: ['packages/**/dist/**'],
+  files: ['packages/**/dist/**', 'packages/main/locales/**'],
   extraMetadata: {
     version: process.env.VITE_APP_VERSION
     // version: '1.0.0'
