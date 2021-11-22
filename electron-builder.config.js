@@ -17,6 +17,9 @@ const config = {
     output: 'dist',
     buildResources: 'buildResources'
   },
+  publish: {
+    provider: 'github'
+  },
   files: ['packages/**/dist/**', 'packages/main/locales/**'],
   extraMetadata: {
     version: process.env.VITE_APP_VERSION

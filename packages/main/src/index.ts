@@ -10,6 +10,12 @@ import axios from 'axios'
 import Store from 'electron-store'
 import dayjs from 'dayjs'
 import sound from 'sound-play'
+import { autoUpdater } from 'electron-updater'
+import log from 'electron-log'
+
+// 设置autoUpdater的日志
+log.transports.file.level = 'info'
+autoUpdater.logger = log
 
 // const { getDoNotDisturb } = require('electron-notification-state')
 // On Windows, logs `true` if "quiet hours" are enabled
@@ -24,6 +30,46 @@ const store = new Store()
 // console.log('token', store.get('token'))
 
 // 显示通知
+// 匿名式的函数，需要在使用之前进行定义
+const sendStatusToWindow = (text: string) => {
+  log.info(text)
+  mainWindow?.webContents.send('message', text)
+}
+
+// 是否需要进行通知更新
+const checkUpdate = async (flag = false) => {
+  sendStatusToWindow('Start Checkding')
+
+  flag ? autoUpdater.checkForUpdatesAndNotify() : autoUpdater.checkForUpdates()
+
+  autoUpdater.on('checking-for-update', () => {
+    sendStatusToWindow('Checking for update...')
+  })
+  autoUpdater.on('update-available', (info) => {
+    const str = JSON.stringify(info)
+    log.info(info)
+    sendStatusToWindow('Update available.' + str)
+  })
+  autoUpdater.on('update-not-available', (info) => {
+    const str = JSON.stringify(info)
+    log.info(info)
+    sendStatusToWindow('Update not available.' + str)
+  })
+  autoUpdater.on('error', (err) => {
+    const str = JSON.stringify(err)
+    sendStatusToWindow('Error in auto-updater. ' + str)
+  })
+  autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = 'Download speed: ' + progressObj.bytesPerSecond
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%'
+    log_message = log_message + ' (' + progressObj.transferred + '/' + progressObj.total + ')'
+    sendStatusToWindow(log_message)
+  })
+  autoUpdater.on('update-downloaded', (info) => {
+    log.info(info)
+    sendStatusToWindow('Update downloaded')
+  })
+}
 
 // 国际化
 i18n.configure({
@@ -61,6 +107,12 @@ const template: MenuItemConstructorOptions[] = [
         label: '查看帮助',
         click: async () => {
           await shell.openExternal('https://front-end.toimc.com')
+        }
+      },
+      {
+        label: '检查更新',
+        click: async () => {
+          checkUpdate()
         }
       }
     ]
@@ -254,8 +306,11 @@ app
 if (import.meta.env.PROD) {
   app
     .whenReady()
-    .then(() => import('electron-updater'))
-    .then(({ autoUpdater }) => autoUpdater.checkForUpdatesAndNotify())
+    // .then(() => import('electron-updater'))
+    .then(() => {
+      return checkUpdate(true)
+      // autoUpdater.checkForUpdatesAndNotify()
+    })
     .catch((e) => console.error('Failed check updates:', e))
 }
 

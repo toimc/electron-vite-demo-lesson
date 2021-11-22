@@ -46,6 +46,11 @@
           }
         }
       })
+      // 接收更新消息
+      on('message', (event, ...args) => {
+        console.log('🚀 ~ file: App.vue ~ line 45 ~ mounted ~ args', args)
+        console.log('🚀 ~ file: App.vue ~ line 45 ~ mounted ~ event', event)
+      })
     }
   })
 </script>
