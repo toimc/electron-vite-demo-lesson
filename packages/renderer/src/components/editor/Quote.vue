@@ -1,13 +1,13 @@
 <template>
   <transition name="fade">
-    <div class="layui-layer-page layui-layer-prompt edit-content" v-show="isShow">
+    <div v-show="isShow" class="layui-layer-page layui-layer-prompt edit-content">
       <div class="layui-layer-title">请输入引用内容</div>
       <div class="layui-layer-content">
         <textarea
-          class="layui-layer-input"
           id="quoteInput"
           v-model="quote"
-          style="width: 300px; height: 100px;"
+          class="layui-layer-input"
+          style="width: 300px; height: 100px"
         ></textarea>
       </div>
       <span class="layui-layer-setwin" @click="cancel()">
@@ -22,34 +22,35 @@
 </template>
 
 <script>
-export default {
-  name: 'Quote',
-  props: ['isShow'],
-  data () {
-    return {
-      quote: ''
-    }
-  },
-  methods: {
-    submit () {
-      if (this.quote === '') {
-        document.getElementById('quoteInput').focus()
-        this.$pop('shake', '请输入引用内容')
-        return
+  export default {
+    name: 'QuoteComponent',
+    // eslint-disable-next-line vue/require-prop-types
+    props: ['isShow'],
+    emits: ['closeEvent', 'addEvent'],
+    data() {
+      return {
+        quote: ''
       }
-      this.$emit('addEvent', this.quote)
-      setTimeout(() => {
+    },
+    methods: {
+      submit() {
+        if (this.quote === '') {
+          document.getElementById('quoteInput').focus()
+          this.$pop('shake', '请输入引用内容')
+          return
+        }
+        this.$emit('addEvent', this.quote)
+        setTimeout(() => {
+          this.quote = ''
+          this.$emit('closeEvent')
+        }, 0)
+      },
+      cancel() {
         this.quote = ''
         this.$emit('closeEvent')
-      }, 0)
-    },
-    cancel () {
-      this.quote = ''
-      this.$emit('closeEvent')
+      }
     }
   }
-}
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

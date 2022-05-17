@@ -1,6 +1,5 @@
-import { RouteRecordRaw } from 'vue-router'
-const Detail = () =>
-  import(/* webpackChunkName: 'detail' */ '@/views/contents/Detail.vue')
+import type { RouteRecordRaw } from 'vue-router'
+const Detail = () => import(/* webpackChunkName: 'detail' */ '@/views/contents/Detail.vue')
 
 const routes: Array<RouteRecordRaw> = [
   {

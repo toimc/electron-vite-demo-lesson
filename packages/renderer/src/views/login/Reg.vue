@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable vue/no-v-html -->
   <div class="layui-container fly-marginTop">
     <div class="fly-panel fly-panel-user" pad20>
       <div class="layui-tab layui-tab-brief" lay-filter="user">
@@ -140,6 +141,7 @@
 </template>
 
 <script lang="ts">
+  /* eslint-disable vue/no-v-html */
   import { defineComponent, onMounted } from 'vue'
   import { Form, Field } from 'vee-validate'
   import { LoginService } from '@/services/login'

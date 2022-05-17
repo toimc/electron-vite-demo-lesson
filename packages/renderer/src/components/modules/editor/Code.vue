@@ -1,14 +1,14 @@
 <template>
   <transition name="fade">
-    <div class="layui-layer-page layui-layer-prompt edit-content" v-show="isShow">
+    <div v-show="isShow" class="layui-layer-page layui-layer-prompt edit-content">
       <div class="layui-layer-title">请贴入代码或任意文本</div>
       <div class="layui-layer-content">
         <textarea
-          class="layui-layer-input"
-          v-model="code"
           id="codeInput"
-          v-on:keydown.enter="$event.stopPropagation()"
-          :style="{'width': this.width + 'px', 'height': this.height + 'px'}"
+          v-model="code"
+          class="layui-layer-input"
+          :style="{ width: width + 'px', height: height + 'px' }"
+          @keydown.enter="$event.stopPropagation()"
         ></textarea>
       </div>
       <span class="layui-layer-setwin" @click="cancel()">
@@ -23,34 +23,36 @@
 </template>
 
 <script>
-export default {
-  name: 'Code',
-  props: ['isShow', 'width', 'height'],
-  data () {
-    return {
-      code: ''
-    }
-  },
-  methods: {
-    submit () {
-      if (this.code === '') {
-        document.getElementById('codeInput').focus()
-        this.$pop('shake', '请输入引用内容')
-        return
+  export default {
+    // eslint-disable-next-line vue/multi-word-component-names
+    name: 'Code',
+    // eslint-disable-next-line vue/require-prop-types
+    props: ['isShow', 'width', 'height'],
+    emits: ['addEvent', 'closeEvent'],
+    data() {
+      return {
+        code: ''
       }
-      this.$emit('addEvent', this.code)
-      setTimeout(() => {
+    },
+    methods: {
+      submit() {
+        if (this.code === '') {
+          document.getElementById('codeInput').focus()
+          this.$pop('shake', '请输入引用内容')
+          return
+        }
+        this.$emit('addEvent', this.code)
+        setTimeout(() => {
+          this.code = ''
+          this.$emit('closeEvent')
+        }, 0)
+      },
+      cancel() {
         this.code = ''
         this.$emit('closeEvent')
-      }, 0)
-    },
-    cancel () {
-      this.code = ''
-      this.$emit('closeEvent')
+      }
     }
   }
-}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

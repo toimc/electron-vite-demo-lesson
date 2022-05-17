@@ -1,5 +1,5 @@
 import { getList } from '@/api/content'
-import { HttpResponse } from '@/common/interface'
+import type { HttpResponse } from '@/common/interface'
 import { reactive } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -15,8 +15,7 @@ export const ListService = () => {
     isEnd: false,
     isRepeat: false,
     current: '',
-    lists: [
-    ]
+    lists: []
   })
 
   const route = useRoute()

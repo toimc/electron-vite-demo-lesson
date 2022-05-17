@@ -2,21 +2,21 @@
   <div class="fly-panel fly-column">
     <div class="layui-container">
       <ul class="layui-clear">
-        <router-link to="/" custom v-slot="{ navigate }" class="layui-hide-xs">
+        <router-link v-slot="{ navigate }" to="/" custom class="layui-hide-xs">
           <li @click="navigate"><a href="/">首页</a></li>
         </router-link>
         <!-- todo -->
         <router-link
           v-for="(item, index) in lists"
           :key="'panel' + index"
+          v-slot="{ navigate }"
           :to="item.path"
           custom
-          v-slot="{ navigate }"
         >
           <li @click="navigate">
             <a href="javascript:void(0)">
               {{ item.name }}
-              <span class="layui-badge-dot" v-if="item.isNew"></span>
+              <span v-if="item.isNew" class="layui-badge-dot"></span>
             </a>
           </li>
         </router-link>
@@ -56,48 +56,47 @@
 </template>
 
 <script>
-import store from '@/store'
-export default {
-  name: 'panel',
-  data () {
-    return {
-      lists: [
-        {
-          name: '提问',
-          path: '/index/ask',
-          isNew: false
-        },
-        {
-          name: '分享',
-          path: '/index/share',
-          isNew: true
-        },
-        {
-          name: '讨论',
-          path: '/index/discuss',
-          isNew: false
-        },
-        {
-          name: '建议',
-          path: '/index/advise',
-          isNew: false
-        },
-        {
-          name: '公告',
-          path: '/index/notice',
-          isNew: false
-        },
-        {
-          name: '动态',
-          path: '/index/logs',
-          isNew: false
-        }
-      ],
-      isLogin: store.state.isLogin
+  import store from '@/store'
+  export default {
+    name: 'PanelComponent',
+    data() {
+      return {
+        lists: [
+          {
+            name: '提问',
+            path: '/index/ask',
+            isNew: false
+          },
+          {
+            name: '分享',
+            path: '/index/share',
+            isNew: true
+          },
+          {
+            name: '讨论',
+            path: '/index/discuss',
+            isNew: false
+          },
+          {
+            name: '建议',
+            path: '/index/advise',
+            isNew: false
+          },
+          {
+            name: '公告',
+            path: '/index/notice',
+            isNew: false
+          },
+          {
+            name: '动态',
+            path: '/index/logs',
+            isNew: false
+          }
+        ],
+        isLogin: store.state.isLogin
+      }
     }
   }
-}
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

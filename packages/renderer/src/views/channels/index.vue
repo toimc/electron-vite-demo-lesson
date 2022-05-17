@@ -13,20 +13,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import SideBar from '@/views/sidebar/index.vue'
-import List from '@/components/contents/List.vue'
-import Top from '@/components/contents/Top.vue'
+  import { defineComponent } from 'vue'
+  import SideBar from '@/views/sidebar/index.vue'
+  import List from '@/components/contents/List.vue'
+  import Top from '@/components/contents/Top.vue'
 
-export default defineComponent({
-  name: 'index',
-  components: {
-    'imooc-sidebar': SideBar,
-    'imooc-list': List,
-    'imooc-top': Top
-  }
-})
+  export default defineComponent({
+    // eslint-disable-next-line vue/multi-word-component-names
+    name: 'Index',
+    components: {
+      'imooc-sidebar': SideBar,
+      'imooc-list': List,
+      'imooc-top': Top
+    }
+  })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -64,6 +64,7 @@
                       />
                     </div>
                     <div class>
+                      <!-- eslint-disable vue/no-v-html -->
                       <span
                         class="svg"
                         style="color: #c00"
@@ -77,9 +78,9 @@
                   </div>
                 </div>
                 <div class="layui-form-item">
-                  <button class="layui-btn" type="button" @click="validate().then(loginHandle)">
-                    立即登录
-                  </button>
+                  <button class="layui-btn" type="button" @click="validate().then(loginHandle)"
+                    >立即登录</button
+                  >
                   <span style="padding-left: 20px">
                     <router-link :to="{ name: 'forget' }">忘记密码？</router-link>
                   </span>

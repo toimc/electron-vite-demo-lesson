@@ -1,4 +1,4 @@
-import { RouteRecordRaw } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
 
 const Login = () => import(/* webpackChunkName: 'login' */ '@/views/login/Login.vue')
 const Reg = () => import(/* webpackChunkName: 'reg' */ '@/views/login/Reg.vue')

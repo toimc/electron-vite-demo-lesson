@@ -1,5 +1,5 @@
 import { getCode, login, reg, forget, reset } from '@/api/login'
-import { HttpResponse } from '@/common/interface'
+import type { HttpResponse } from '@/common/interface'
 import { v4 as uuidv4 } from 'uuid'
 import store from '@/store'
 import { reactive } from 'vue'
@@ -29,7 +29,7 @@ export const LoginService = () => {
       localStorage.setItem('sid', sid)
     }
     store.commit('setSid', sid)
-    const { data, code } = await getCode(sid) as HttpResponse
+    const { data, code } = (await getCode(sid)) as HttpResponse
     if (code === 200) {
       state.svg = data
     }

@@ -12,18 +12,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import List from '@/components/contents/List.vue'
-import SimpleSideBar from '@/views/sidebar/SimpleSideBar.vue'
+  import { defineComponent } from 'vue'
+  import List from '@/components/contents/List.vue'
+  import SimpleSideBar from '@/views/sidebar/SimpleSideBar.vue'
 
-export default defineComponent({
-  name: 'template1',
-  components: {
-    'imooc-list': List,
-    'imooc-simplebar': SimpleSideBar
-  }
-})
+  export default defineComponent({
+    // eslint-disable-next-line vue/multi-word-component-names
+    name: 'Template1',
+    components: {
+      'imooc-list': List,
+      'imooc-simplebar': SimpleSideBar
+    }
+  })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

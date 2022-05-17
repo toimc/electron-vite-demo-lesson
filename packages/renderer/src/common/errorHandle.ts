@@ -1,5 +1,6 @@
 /* eslint-disable handle-callback-err */
-import axios, { AxiosError } from 'axios'
+import type { AxiosError } from 'axios'
+import axios from 'axios'
 import store from '@/store'
 import config from '@/config'
 import request from './request'

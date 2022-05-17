@@ -1,5 +1,5 @@
 import axios from '@/common/request'
-import { LoginInfo, RegInfo, ResetInfo, ForgetInfo } from '@/common/interface'
+import type { LoginInfo, RegInfo, ResetInfo, ForgetInfo } from '@/common/interface'
 
 /**
  * 获取验证码接口
@@ -53,10 +53,4 @@ const reg = (regInfo: RegInfo) => {
  */
 const reset = (info: ResetInfo) => axios.post('/login/reset', { ...info })
 
-export {
-  getCode,
-  forget,
-  login,
-  reg,
-  reset
-}
+export { getCode, forget, login, reg, reset }

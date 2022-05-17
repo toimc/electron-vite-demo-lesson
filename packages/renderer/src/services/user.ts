@@ -1,5 +1,5 @@
 import { updateUsername } from '@/api/user'
-import { HttpResponse } from '@/common/interface'
+import type { HttpResponse } from '@/common/interface'
 import { useRouter } from 'vue-router'
 
 export const UserService = () => {
