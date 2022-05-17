@@ -187,7 +187,6 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     show: false, // Use 'ready-to-show' event to show window
     webPreferences: {
-      nativeWindowOpen: true,
       preload: join(__dirname, '../../preload/dist/index.cjs'),
       webSecurity: false
     }
@@ -355,6 +354,7 @@ ipcMain.on('get-store', (event, key) => {
   event.sender.send('reply-store', key, store.get(key))
 })
 
+/* eslint-disable no-unused-vars */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ipcMain.on('reset-store', (event, key) => {
   store.clear()
